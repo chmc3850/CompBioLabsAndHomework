@@ -2,8 +2,7 @@
 # 04/09/2021
 # Compuatational Bio
 
-#### Much of this code adapated from class###
-
+#### Much of this code has been adapated from class ####
 # Working with some data from the Colorado Department of Public Health
 # and Environment (CDPHE) on COVID-19 in Colorado.
 
@@ -31,7 +30,6 @@ unique(stateStatsData$Desc_)
 table(stateStatsData$Name)
 
 
-
 ##################################################################
 ##  Tasks
 ##################################################################
@@ -54,7 +52,9 @@ dt <- as.POSIXlt("2020-05-15")
 index <- which(as.Date(stateStatsData$Date) < dt)
 priorDates <- stateStatsData[index , ]
 
-# do it all in one pipeline with pipes
+
+
+#### Part 1: doing it all in one pipeline with pipes ####
 ColoradoData <- stateStatsData %>%
   filter( Name == "Colorado") %>%
   select(Date, Cases, Deaths) %>%
@@ -64,10 +64,10 @@ ColoradoData <- stateStatsData %>%
 
 
 #### Part 2 Plotting the data ####
-p1 <- ggplot(ColoradoData, aes(x = as.Date(Date), y = Cases))+
+CasesPlot <- ggplot(ColoradoData, aes(x = as.Date(Date), y = Cases))+
   scale_y_continuous(trans='log10') +
   geom_line() + xlab("Date")
-p1
+CasesPlot
 
 p2 <- ggplot(ColoradoData, aes(x = as.Date(Date), y = Deaths))+
   scale_y_continuous(trans='log10') +
@@ -75,10 +75,34 @@ p2 <- ggplot(ColoradoData, aes(x = as.Date(Date), y = Deaths))+
 p2
 
 
-### Part 3 Add doubling times ###
+#### Part 3 Add doubling times ####
 addDoublingTimeRefLines <- function( myPlot, doublingTimeVec, someKindOfData, startFrom ) {
   
 }
+
+# Rescale x-axis: make x-axis days since number of cases
+#ColoradoData$DaysSince <- as.integer(ColoradoData$Date - ColoradoData$Date[1])
+ColoradoData$DaysSince <- as.integer(julian(ColoradoData$Date, origin = min(ColoradoData$Date)))
+
+nInit <- ColoradoData$Cases[1] #initial number of cases 
+CasesPlot <- ggplot(ColoradoData, aes(x = DaysSince, y = Cases))+
+  scale_y_continuous(trans='log10') +
+  geom_line() + 
+  xlab(paste("Days since case", nInit))
+
+CasesPlot
+
+
+# add ref lines
+doubTime <- 3 # days
+timePoints <- seq(0, max(ColoradoData$DaysSince), doubTime)
+nDoublings <- 0:(length(timePoints) - 1)
+doubRefNums <- 2^(nDoublings) * nInit
+refData <- data.frame(timePoints, doubRefNums)
+
+CasesPlot + geom_line(data = refData, aes(x = timePoints, y = doubRefNums), linetype = "dashed", color = "gray")
+
+# add text to label each ref line
 
 
 

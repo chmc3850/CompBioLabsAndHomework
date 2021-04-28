@@ -31,10 +31,7 @@ triangleArea(b2,h2) #test case 2
 # Function definition:
 myAbs <- function(n){
   for (i in 1:length(n)){
-    if (n[i] >= 0){
-    }
-    
-    else if (n[i] < 0){
+    if (n[i] < 0){
       n[i] <- sqrt(n[i]^2) # if number is negative, change to a positive
     }
   }
@@ -46,6 +43,25 @@ myAbs(5)
 myAbs(-2.3)
 testVec <- c(1.1, 2, 0, -4.3, 9, -12)
 myAbs(testVec)
+
+### another way to write problem 2 with logical indexing
+myAbs <- function(value) {
+  
+  # Function to calculate the absolute value
+  # Input: scalar or vector
+  # Output: absolute value of the input
+  
+  # Get index of all negativ elements
+  index <- which(value < 0)
+  
+  # Multiply negative elements with -1
+  value[index] <- value[index] * -1
+  
+  # Return the absolute value
+  return(value)
+  
+}
+
 
 #########
 

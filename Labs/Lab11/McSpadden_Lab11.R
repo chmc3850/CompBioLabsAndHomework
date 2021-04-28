@@ -21,6 +21,12 @@ data <- data[-which(is.na(data$Density)),]
 # collapse multiple species into one species with mean density for each
 condensed_data <- summarize(group_by(data, Binomial, Family), Density = mean(Density))
 
+## previous operation executed with pipes
+# condensed_data <- data %>% 
+#  group_by(Binomial, Family)%>% 
+#  summarize(Density = mean(Density))
+
+
 # create new data frame with mean density for each family
 fam_density <- summarize(group_by(condensed_data, Family), MeanDensity = mean(Density))
 
