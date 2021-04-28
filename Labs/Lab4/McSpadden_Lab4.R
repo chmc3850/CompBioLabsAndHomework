@@ -66,5 +66,3 @@ for (i in 3:20){
 }
 
 # problem 7: see line 29
-
-
