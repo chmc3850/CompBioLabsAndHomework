@@ -4,7 +4,7 @@
 
 setwd("~/School/SP21/Computational_Bio_4420/Independent Project")
 
-#include appropriate libraries
+#include appropriate libraries and packages
 library("dplyr")
 library("ggplot2")
 library(gplots) 
@@ -39,6 +39,8 @@ FisherSAD <- hist(SpeciesTotals,
 
 
 ############################# trying out heatmaps ###########################
+############# view heatmaps in a large window to allow room for large figure margins ##################
+
 library(RColorBrewer) # lib for color schemes
 coul <- colorRampPalette(brewer.pal(8, "PiYG"))(25) # heatmap color scheme
 
@@ -55,5 +57,5 @@ heatmap(plantMat, Colv = NA , Rowv = NA,col= colorRampPalette(brewer.pal(8, "Gre
 
 ###### Trying out a new formula for SAD #######
 # TotalsByHabitat <- colSums(data) #total number of observations per habitat
-# AbundanceByHabitat <- hist(TotalsByHabitat, 
-                           breaks = 28)
+# AbundanceByHabitat <- hist(TotalsByHabitat, breaks = 28)
+
